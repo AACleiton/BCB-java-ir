@@ -1,12 +1,16 @@
 package com.me.personal.domains;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "cliente")
@@ -20,27 +24,35 @@ public class Cliente implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = sequence, strategy = GenerationType.SEQUENCE)
+    @JsonProperty("id")
     private Long id;
 
     @Column(name = "nome")
+    @JsonProperty( "nome")
     private String nome;
 
     @Column(name = "email")
+    @JsonProperty("email")
     private String email;
 
     @Column(name = "telefone")
+    @JsonProperty("telefone")
     private String telefone;
 
     @Column(name = "cpf_responsavel")
+    @JsonProperty("cpfReponsavel")
     private String cpfReponsavel;
 
     @Column(name = "cnpj")
+    @JsonProperty("cnpj")
     private String cnpj;
 
     @Column(name = "nome_empresa")
+    @JsonProperty("nomeEmpresa")
     private String nomeEmpresa;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "clientePlanoId.cliente", cascade = CascadeType.ALL)
+    @JsonProperty("planos")
     private List<ClientePlano> planos = new ArrayList<>();
 
     public Long getId() {
@@ -106,8 +118,37 @@ public class Cliente implements Serializable {
                 .orElse(null);
     }
 
+    @JsonIgnore
+    public Optional<ClientePlano> getPlanoAtualOpt() {
+        return planos.stream()
+                .filter(ClientePlano::isAtual)
+                .findFirst();
+    }
+
     public void setPlanos(List<ClientePlano> planos) {
         this.planos = planos;
+    }
+
+    public Cliente atualizaDados(Cliente cliente){
+        this.nome = cliente.getNome();
+        this.email = cliente.getEmail();
+        this.telefone = cliente.getTelefone();
+        this.cpfReponsavel = cliente.getCpfReponsavel();
+        this.cnpj = cliente.getCnpj();
+        this.nomeEmpresa = cliente.getNomeEmpresa();
+
+        return this;
+    }
+
+    public void vincularPlano(Plano plano, BigDecimal saldoInicial) {
+        this.planos.forEach(p -> p.setAtual(false));
+
+        var novoPlano = new ClientePlano(this, plano);
+
+        novoPlano.setSaldoCredito(saldoInicial);
+        novoPlano.setAtual(true);
+
+        this.planos.add(novoPlano);
     }
 
     @Override

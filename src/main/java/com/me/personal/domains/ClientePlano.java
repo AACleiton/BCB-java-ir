@@ -20,10 +20,10 @@ public class ClientePlano {
     private boolean atual = false;
 
     @Column(name = "saldo_credito")
-    private BigDecimal saldoCredito;
+    private BigDecimal saldoCredito = new BigDecimal(0);
 
     @Column(name = "saldo_credito_utilizado")
-    private BigDecimal saldoCreditoUtilizado;
+    private BigDecimal saldoCreditoUtilizado = new BigDecimal(0);
 
     public ClientePlano() {
         clientePlanoId = new ClientePlanoId();
@@ -71,6 +71,10 @@ public class ClientePlano {
 
     public void setAtual(Boolean atual) {
         this.atual = Optional.ofNullable(atual).orElse(false);
+    }
+
+    public void adicionarCreditos(BigDecimal valor) {
+        this.saldoCredito = this.saldoCredito.add(valor);
     }
 
     @Override

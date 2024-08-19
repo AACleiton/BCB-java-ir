@@ -1,5 +1,6 @@
 package com.me.personal.domains;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.me.personal.enumerated.TipoEnvioMensagem;
 import jakarta.persistence.*;
 
@@ -20,16 +21,42 @@ public class HistoricoEnvioMensagem implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = sequence, strategy = GenerationType.SEQUENCE)
+    @JsonProperty("id")
     private Long id;
 
     @Column(name = "data_hora_envio")
+    @JsonProperty("dataHoraEnvio")
     private LocalDateTime dataHoraEnvio;
 
     @Column(name = "telefone_destino")
+    @JsonProperty("telefoneDestino")
     private String telefoneDestino;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_envio")
+    @JsonProperty("tipoEnvio")
     private TipoEnvioMensagem tipoEnvio;
+
+    @Column(name = "texto")
+    @JsonProperty("texto")
+    private String texto;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
+    @JsonProperty("cliente")
+    private Cliente cliente;
+
+    public HistoricoEnvioMensagem() {
+    }
+
+    public HistoricoEnvioMensagem(LocalDateTime dataHoraEnvio, String telefoneDestino, TipoEnvioMensagem tipoEnvio,
+                                  Cliente cliente, String texto) {
+        this.dataHoraEnvio = dataHoraEnvio;
+        this.telefoneDestino = telefoneDestino;
+        this.tipoEnvio = tipoEnvio;
+        this.cliente = cliente;
+        this.texto = texto;
+    }
 
     public Long getId() {
         return id;
@@ -57,6 +84,22 @@ public class HistoricoEnvioMensagem implements Serializable {
 
     public void setTipoEnvio(TipoEnvioMensagem tipoEnvio) {
         this.tipoEnvio = tipoEnvio;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
 
     @Override

@@ -1,9 +1,6 @@
 package com.me.personal.domains;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -13,11 +10,11 @@ import static jakarta.persistence.FetchType.LAZY;
 public class ClientePlanoId {
 
     @ManyToOne(fetch = LAZY)
-    @Column(name = "cliente_id")
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @ManyToOne(fetch = LAZY)
-    @Column(name = "plano_id")
+    @JoinColumn(name = "plano_id")
     private Plano plano;
 
     public ClientePlanoId() {
