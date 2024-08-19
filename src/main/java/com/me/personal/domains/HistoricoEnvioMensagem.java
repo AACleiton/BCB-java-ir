@@ -31,6 +31,24 @@ public class HistoricoEnvioMensagem implements Serializable {
     @Column(name = "tipo_envio")
     private TipoEnvioMensagem tipoEnvio;
 
+    @Column(name = "texto")
+    private String texto;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+    public HistoricoEnvioMensagem() {
+    }
+
+    public HistoricoEnvioMensagem(LocalDateTime dataHoraEnvio, String telefoneDestino, TipoEnvioMensagem tipoEnvio,
+                                  Cliente cliente, String texto) {
+        this.dataHoraEnvio = dataHoraEnvio;
+        this.telefoneDestino = telefoneDestino;
+        this.tipoEnvio = tipoEnvio;
+        this.cliente = cliente;
+    }
+
     public Long getId() {
         return id;
     }
@@ -57,6 +75,22 @@ public class HistoricoEnvioMensagem implements Serializable {
 
     public void setTipoEnvio(TipoEnvioMensagem tipoEnvio) {
         this.tipoEnvio = tipoEnvio;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
 
     @Override
