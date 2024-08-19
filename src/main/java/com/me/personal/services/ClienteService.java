@@ -100,7 +100,7 @@ public class ClienteService {
     public void processaEnvioMensagem(Cliente cliente) {
         var planoAtual = cliente.getPlanoAtualOpt().orElseThrow(() -> new RuntimeException("Plano não encontrado"));
 
-        cliente.getPlanoAtual().getPlano().getTipoPlano().processaEnvioMensagem(planoAtual, planoAtual.getSaldoCredito());
+        cliente.getPlanoAtual().getPlano().getTipoPlano().processaEnvioMensagem(planoAtual, planoAtual.getPlano().getValorPorMensagem());
 
         this.save(cliente);
     }

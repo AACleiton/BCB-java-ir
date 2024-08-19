@@ -1,13 +1,17 @@
 package com.me.personal.controllers;
 
+import com.me.personal.DTO.FindAllPlanoDTO;
 import com.me.personal.DTO.PageableDTO;
 import com.me.personal.domains.Plano;
 import com.me.personal.enumerated.TipoPlano;
 import com.me.personal.services.PlanoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("api/plano")
+@RestController
+@RequestMapping("/api/plano")
 public class PlanoController {
 
     private final PlanoService planoService;
@@ -18,15 +22,18 @@ public class PlanoController {
     }
 
     @GetMapping("/find-by-id")
-    public void findById(@RequestParam(name = "id") Long id) {
-        this.planoService.findById(id);
+    public ResponseEntity<Plano> findById(@RequestBody Long id) {
+        try {
+            return ResponseEntity.ok().body(this.planoService.findById(id));
+        }catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/find-all")
-    public void findAll(@RequestParam(name = "search", required = false) String search,
-                        @RequestParam(name = "tipo")TipoPlano tipo,
-                        @RequestParam(name = "pageableDTO") PageableDTO pageableDTO) {
-        this.planoService.findAll(search, tipo, pageableDTO.getPageable());
+    public ResponseEntity<Page<Plano>> findAll(@RequestBody FindAllPlanoDTO findAllPlanoDTO) {
+        return ResponseEntity.ok().body(this.planoService.findAll(findAllPlanoDTO.getSearch(), findAllPlanoDTO.getTipo(),
+                findAllPlanoDTO.getPageableDTO().getPageable()));
     }
 
     @PostMapping("/create")

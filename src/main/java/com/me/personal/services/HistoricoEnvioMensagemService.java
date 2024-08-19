@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 
 import static java.util.Optional.ofNullable;
@@ -66,7 +65,7 @@ public class HistoricoEnvioMensagemService {
             this.clienteService.processaEnvioMensagem(clienteRecuperado);
 
             this.historicoEnvioMensagemRepository.save(historicoEnvioMensagem);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao enviar mensagem");
         }

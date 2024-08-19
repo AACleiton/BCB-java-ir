@@ -1,0 +1,25 @@
+spring:
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    default-schema: public
+  application:
+    name: big-chat-brasil
+    version: 0.0.1
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/bigchat
+    username: bigchat
+    password: bigchat
+  jpa:
+    properties.hibernate:
+      generate_statistics: false
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQL95alect
+      ddl-auto: update
+      envers:
+        store_data_at_delete: true
+    open-in-view: true
+    show-sql: true
+
+server:
+  port: 8080

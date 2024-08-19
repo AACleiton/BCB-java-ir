@@ -1,14 +1,13 @@
 package com.me.personal.controllers;
 
-import com.me.personal.domains.HistoricoEnvioMensagem;
+import com.me.personal.DTO.EnvioMensagemDTO;
 import com.me.personal.enumerated.TipoEnvioMensagem;
 import com.me.personal.services.HistoricoEnvioMensagemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController("api/envio-mensagem")
+@RestController
+@RequestMapping("api/envio-mensagem")
 public class HistoricoEnvioMensagemController {
 
     private final HistoricoEnvioMensagemService historicoEnvioMensagemService;
@@ -19,9 +18,7 @@ public class HistoricoEnvioMensagemController {
     }
 
     @PostMapping("/enviar-mensagem")
-    public void enviarMensagem(@RequestParam("texto") String texto,
-                               @RequestParam("tipo") TipoEnvioMensagem tipo,
-                               @RequestParam("clienteId") Long clienteId) {
-        this.historicoEnvioMensagemService.enviarMensagem(clienteId, tipo, texto);
+    public void enviarMensagem(@RequestBody EnvioMensagemDTO envioMensagemDTO) {
+        this.historicoEnvioMensagemService.enviarMensagem(envioMensagemDTO.getClienteId(), envioMensagemDTO.getTipo(), envioMensagemDTO.getTexto());
     }
 }

@@ -1,8 +1,8 @@
 package com.me.personal.domains;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.me.personal.enumerated.TipoPlano;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -21,15 +21,20 @@ public class Plano implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = sequence, strategy = GenerationType.SEQUENCE)
+    @JsonProperty("id")
     private Long id;
 
     @Column(name = "nome")
+    @JsonProperty("nome")
     private String nome;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_plano")
+    @JsonProperty("tipoPlano")
     private TipoPlano tipoPlano;
 
     @Column(name = "valor_por_mensagem")
+    @JsonProperty("valorPorMensagem")
     private BigDecimal valorPorMensagem = new BigDecimal("0.25");
 
     public Long getId() {

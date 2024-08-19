@@ -1,5 +1,6 @@
 package com.me.personal.domains;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.me.personal.enumerated.TipoEnvioMensagem;
 import jakarta.persistence.*;
 
@@ -20,22 +21,29 @@ public class HistoricoEnvioMensagem implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = sequence, strategy = GenerationType.SEQUENCE)
+    @JsonProperty("id")
     private Long id;
 
     @Column(name = "data_hora_envio")
+    @JsonProperty("dataHoraEnvio")
     private LocalDateTime dataHoraEnvio;
 
     @Column(name = "telefone_destino")
+    @JsonProperty("telefoneDestino")
     private String telefoneDestino;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_envio")
+    @JsonProperty("tipoEnvio")
     private TipoEnvioMensagem tipoEnvio;
 
     @Column(name = "texto")
+    @JsonProperty("texto")
     private String texto;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
+    @JsonProperty("cliente")
     private Cliente cliente;
 
     public HistoricoEnvioMensagem() {
@@ -47,6 +55,7 @@ public class HistoricoEnvioMensagem implements Serializable {
         this.telefoneDestino = telefoneDestino;
         this.tipoEnvio = tipoEnvio;
         this.cliente = cliente;
+        this.texto = texto;
     }
 
     public Long getId() {

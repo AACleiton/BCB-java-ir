@@ -1,6 +1,7 @@
 package com.me.personal.domains;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -23,27 +24,35 @@ public class Cliente implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = sequence, strategy = GenerationType.SEQUENCE)
+    @JsonProperty("id")
     private Long id;
 
     @Column(name = "nome")
+    @JsonProperty( "nome")
     private String nome;
 
     @Column(name = "email")
+    @JsonProperty("email")
     private String email;
 
     @Column(name = "telefone")
+    @JsonProperty("telefone")
     private String telefone;
 
     @Column(name = "cpf_responsavel")
+    @JsonProperty("cpfReponsavel")
     private String cpfReponsavel;
 
     @Column(name = "cnpj")
+    @JsonProperty("cnpj")
     private String cnpj;
 
     @Column(name = "nome_empresa")
+    @JsonProperty("nomeEmpresa")
     private String nomeEmpresa;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "clientePlanoId.cliente", cascade = CascadeType.ALL)
+    @JsonProperty("planos")
     private List<ClientePlano> planos = new ArrayList<>();
 
     public Long getId() {
